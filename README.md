@@ -21,6 +21,48 @@ A API permite gerenciar as tendas disponíveis para locação, armazenando infor
 - **Atualizar os dados de uma tenda**: Endpoint para atualizar as informações de uma tenda.
 - **Excluir uma tenda**: Endpoint para excluir uma tenda do banco de dados.
 
+## DIAGRAMA DE CLASSES
+```mermaid
+classDiagram
+direction LR
+    class Tenda {
+	    - String id
+	    - String nome
+	    - String tamanho
+	    - double precoDiaria
+	    - boolean disponivel
+	    + getId() : String
+	    + setId(String id) : void
+	    + getNome() : String
+	    + setNome(String nome) : void
+	    + getTamanho() : String
+	    + setTamanho(String tamanho) : void
+	    + getPrecoDiaria() : double
+	    + setPrecoDiaria(double precoDiaria) : void
+	    + isDisponivel() : boolean
+	    + setDisponivel(boolean disponivel) : void
+    }
+
+    class TendaRepository {
+	    + findAll() : List
+	    + save(Tenda tenda) : Tenda
+	    + findById(String id) : Optional
+	    + deleteById(String id) : void
+    }
+
+    class TendaController {
+	    - TendaRepository tendaRepository
+	    + listarTendas() : List
+	    + adicionarTenda(Tenda tenda) : Tenda
+	    + buscarTenda(String id) : Tenda
+	    + atualizarTenda(String id, Tenda tenda) : Tenda
+	    + excluirTenda(String id) : void
+    }
+
+    TendaRepository --> Tenda
+    TendaController --> TendaRepository
+```
+
 ## Endpoints
 
 ### 1. **Listar todas as tendas**  
@@ -30,6 +72,7 @@ Retorna todas as tendas registradas no banco de dados.
 ### 2. **Adicionar uma tenda**  
 **POST** `/tendas`  
 Adiciona uma nova tenda ao banco de dados.  
+
 **Exemplo de corpo da requisição:**
 
 ```json
